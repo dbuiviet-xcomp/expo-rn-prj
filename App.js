@@ -1,4 +1,4 @@
-import {setStatusBarBackgroundColor, StatusBar} from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 import {
   StyleSheet,
   //Text,
