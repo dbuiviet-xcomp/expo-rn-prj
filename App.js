@@ -1,3 +1,7 @@
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 import {StatusBar} from 'expo-status-bar';
 import {
   StyleSheet,
