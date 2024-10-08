@@ -6,8 +6,11 @@ import {
   Button,
   TextInput,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {useState} from 'react';
+
+import GoalItem from './components/GoalItem';
 
 export default function App() {
   const [enteredText, setEnteredGoalText] = useState('');
@@ -19,7 +22,10 @@ export default function App() {
   }
   function addGoalHandler() {
     //setCourseGoals([...courseGoals, enteredText]);
-    setCourseGoals(currentCourseGoals => [...courseGoals, enteredText]);
+    setCourseGoals(currentCourseGoals => [
+      ...courseGoals,
+      {text: enteredText, key: Math.random().toString()},
+    ]);
   }
 
   return (
@@ -43,17 +49,28 @@ export default function App() {
         />
         <Button title="Add goal" onPress={addGoalHandler} />
       </View>
-      <ScrollView style={styles.goalContainer}>
-        {courseGoals.map(goal => (
-          // <Text style={styles.goalItem} key={goal}>
-          //   {goal}
-          // </Text>
-          // To overcome differences between iOS and Android, we nest <Text> component into <View>
-          <View key={goal} style={styles.goalItem}>
-            <Text style={{color: 'white'}}>{goal}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.goalContainer}>
+        {/* <ScrollView alwaysBounceVertical={false}>
+          {courseGoals.map(goal => (
+            // <Text style={styles.goalItem} key={goal}>
+            //   {goal}
+            // </Text>
+            // To overcome differences between iOS and Android, we nest <Text> component into <View>
+            <View key={goal} style={styles.goalItem}>
+              <Text style={{color: 'white'}}>{goal}</Text>
+            </View>
+          ))}
+        </ScrollView> */}
+        <FlatList
+          data={courseGoals}
+          renderItem={itemData => {
+            return <GoalItem />;
+          }}
+          keyExtractor={(item, index) => {
+            return item.key;
+          }}
+        />
+      </View>
 
       <StatusBar style="auto" />
     </View>
@@ -96,12 +113,5 @@ const styles = StyleSheet.create({
   },
   goalContainer: {
     flex: 4,
-  },
-  goalItem: {
-    margin: 8,
-    padding: 8,
-    borderRadius: 6,
-    backgroundColor: '#5e0acc',
-    //color: 'white',
   },
 });
